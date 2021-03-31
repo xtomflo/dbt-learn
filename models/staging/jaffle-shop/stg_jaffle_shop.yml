@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: stg_customer
+    columns: 
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        tests:
+          - not_null
+      - name: last_name
+        tests:
+          - not_null
+  - name: stg_orders
+    columns: 
+      - name: status
+        tests:
+          - accepted_values:
+              values:
+                - completed
+                - shipped
+                - returned
+                - placed
+                - return_pending
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: order_date
+        tests:
+          - not_null
+  - name: stg_payments
+    columns: 
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+      - name: payment_method
+        tests:
+          - accepted_values:
+              values:
+                - credit_card
+                - coupon
+                - bank_transfer
+                - gift_card
+      - name: payment_status
+        tests:
+          - accepted_values:
+              values:
+                - success
+                - fail
+      - name: payment_amount
+        tests:
+          - not_null
+      - name: payment_created
+        tests:
+          - not_null
+
+

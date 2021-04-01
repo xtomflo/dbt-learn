@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: stripe
+    description: A clone of imported database from Stripe
+    database: raw
+    tables:
+      - name: payment
+        description: Raw payments data
+        loaded_at_field: _batched_at
+        freshness: 
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 24, period: hour}
+        columns:
+          - name: id
+            description: Primary key for payments
+            tests: 
+              - unique
+              - not_null
+          - name: orderid
+            description: Order reference
+            tests:
+              - not_null
+          - name: paymentmethod
+            description: Payment method used by customer
+            tests:
+              - accepted_values:
+                  values:
+                    - credit_card
+                    - coupon
+                    - bank_transfer
+                    - gift_card
+

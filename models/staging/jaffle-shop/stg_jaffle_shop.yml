@@ -2,8 +2,10 @@ version: 2
 
 models:
   - name: stg_customer
+    description: Staged customer data for the jaffle shop.
     columns: 
       - name: customer_id
+        description: Primary key of the customers table
         tests:
           - unique
           - not_null
@@ -14,8 +16,15 @@ models:
         tests:
           - not_null
   - name: stg_orders
+    description: Staged orders data of the jaffle shop
     columns: 
+      - name: order_id
+        description: Primary key for the orders table
+        tests:
+          - not_null
+          - unique
       - name: status
+        description: "{{ doc('order_status')}}"
         tests:
           - accepted_values:
               values:
@@ -33,15 +42,19 @@ models:
         tests:
           - not_null
   - name: stg_payments
-    columns: 
+    description: Staged payment data of the jaffle shop
+    columns:
       - name: payment_id
+        description: Primary key for payments
         tests:
           - unique
           - not_null
       - name: order_id
+        description: Reference to the orders
         tests:
           - not_null
       - name: payment_method
+        description: Payment method used by the customer
         tests:
           - accepted_values:
               values:
@@ -50,6 +63,7 @@ models:
                 - bank_transfer
                 - gift_card
       - name: payment_status
+        description: "{{ doc ('payment_status')}}"
         tests:
           - accepted_values:
               values:

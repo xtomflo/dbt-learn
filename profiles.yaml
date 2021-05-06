@@ -1,0 +1,14 @@
+# profiles.yml
+default: # this needs to match the profile: in your dbt_project.yml file
+  target: dev 
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      keyfile: ./creds.json # THIS FILE WILL BE GENERATED USING SECRETS DURING BUILD TIME
+      project: learning-dbt # Replace this with your project id
+      dataset: tomflo # Replace this with dbt_your_name, e.g. dbt_bob
+      threads: 1
+      timeout_seconds: 300
+      location: US
+      priority: interactive 

@@ -14,14 +14,12 @@ jobs:
       - uses: actions/checkout@v2 
 
       - name: dbt-run # 4. run dbt
-          id: dbt-run
+        id: dbt-run
         uses: mwhitaker/dbt-action@master  
         with:
           dbt_command: "dbt run --profiles-dir ." # the actual dbt command!
           dbt_project_folder: "dbt-learn"
-        env:
-
-     - name: Get the result
+      - name: Get the result
         if: ${{ always() }}
         run: echo "${{ steps.dbt-run.outputs.result }}"
         shell: bash
